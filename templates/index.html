@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+			<title>Document Classification</title>
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<link rel="stylesheet" href="static/styles/predict.css">
+			<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+			<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+			<script src="{{url_for('static', filename='predict.js')}}"></script>
+	</head>
+	<body>
+		<div class="container pt-5">
+			<h1>Welcome to Mortage Document Classifier</h1>
+			<div class="row pt-3 pl-3">
+				<span>Please enter the document content in the text area and click on the <span class="btn btn-primary">Predict</span> button</span>
+			</div>			
+			<div class="row pt-3 pl-3">
+				<span><strong>Note: </strong>The content needs to be hashed words like - 641356219cbc f95d0bea231b ... [lots more words] ... 52102c70348d b32153b8b30c</span>
+			</div>
+			<form class="needs-validation pt-3"  action="" method="post" role="form" novalidate>
+				{{ form.csrf }}
+				<div class="alert alert-danger d-none" role="alert" id="error">
+					An error occurred while processing your request.
+				</div>
+				<div class="form-group">
+					<label for="words">Words:</label>
+					<textarea class="form-control words-text" id="words" name="words" placeholder="Enter document content" required></textarea>
+					<div class="invalid-feedback">
+						Please enter the document content.
+					</div>
+				</div> 
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary js-predict">
+						<span class="spinner-border spinner-border-sm d-none js-spinner"></span>
+						<span class="js-predict-text">Predict</span>	
+					</button>
+				</div> 
+			</form>
+			<div class="row pt-3 pl-3 d-none js-result">
+				<div class="card w-100">
+					<div class="card-header">
+						Prediction Results
+					</div>
+					<div class="card-body">
+						<div class="row"> 
+							<span class="col-sm-3 font-weight-bold">Label</span>
+							<span id="label" class="col-sm-9"></span>
+						</div>		
+						<div class="row"> 
+							<span class="col-sm-3 font-weight-bold">Confidence Score</span>
+							<span id="conf" class="col-sm-9"></span>
+						</div>						
+					</div>
+				</div>
+			</div>	
+		</div>
+	</body>
+</html>

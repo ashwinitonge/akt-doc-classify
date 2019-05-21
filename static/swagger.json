@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Mortgage Document Classification API",
+    "description": "Classify mortgage document",
+    "version": "1.0.0"
+  },
+  "host": "akt-doc-classification.azurewebsites.net",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/v1",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/predict": {
+      "post": {
+        "summary": "Predict mortgage document type",
+        "description": "Predict mortgage document type.",
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "description": "Hashed words of document.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "The predicted label and confidence score",
+			"type" : "object",
+            "schema": {"$ref": "#/definitions/Response"}
+          },
+          "400": {
+            "description": "Invalid/missing data",
+			"type" : "object",
+            "schema": {"$ref": "#/definitions/Error"}
+          },	
+          "406": {
+            "description": "Content type is not application/json",
+			"type" : "object",
+            "schema": {"$ref": "#/definitions/Error"}
+          },		  
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {  
+    "Result": {
+	  "type" : "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Predicted document type"
+        },
+        "confidence": {
+          "type": "string",
+          "description": "Confidence score."
+        }
+      }
+    },  
+    "Response": {
+	  "type":"object",
+      "properties": {
+			"status": {
+			  "type": "number",
+			  "description": "HTTP status code."
+			},
+			"message": {
+			  "type": "string",
+			  "description": "Message."
+			},
+			"result": {"$ref": "#/definitions/Result"}
+        }
+      
+    },
+    "Error": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
